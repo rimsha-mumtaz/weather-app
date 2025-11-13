@@ -1,12 +1,11 @@
 import React from 'react';
 
-const SearchBar = () => {
+export default function SearchBar({ city, setCity, fetchWeather }) {
     return (
         <div>
-            <input type="text" placeholder="Enter city" />
-            <button>Search</button>
+            <input type="text" value={city} onChange={(e) => setCity(e.target.value)} placeholder="Enter city" />
+            <button onClick={fetchWeather}>Search</button>
         </div>
     );
 };
 
-export default SearchBar;

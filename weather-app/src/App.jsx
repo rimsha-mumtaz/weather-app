@@ -12,16 +12,22 @@ function App() {
   const [apikey, setApiKey] = useState("ede83d2485231a1718bffd450e64f41d")
 
   const fetchWeather = async () => {
-    const res = await fetch
-      (`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apikey}&units=metric`);
+    try {
+      const res = await fetch
+        (`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apikey}&units=metric`);
 
-    console.log("HTTP Status: ", res.status);
+      if (!res.ok)
+        throw new Error("Invalid City")
 
-    const data = await res.json();
+      console.log("HTTP Status: ", res.status);
 
-    console.log("API response: ", data);
+      const data = await res.json();
 
-    setWeather(data);
+      console.log("API response: ", data);
+
+      setWeather(data);
+    }
+    catch (err) { alert(err.message); }
   };
 
   useEffect(() => {
@@ -33,7 +39,7 @@ function App() {
     <>
       <div className="flex flex-col items-center justify-center h-screen">
         <h1 className="text-3xl font-bold mb-4">Weather App</h1>
-        <SearchBar />
+        <SearchBar city={city} setCity={setCity} fetchWeather={fetchWeather} />
         <WeatherCard weather={weather} />
       </div>
     </>
